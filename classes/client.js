@@ -1,5 +1,4 @@
 let idClient =1
-
 class Client{
     /**
      * 
@@ -29,22 +28,63 @@ class Client{
         this.fecha=new Date();
         this.fechaVencimientoTargeta= new Date(this.fecha.getFullYear()+3,this.fecha.getMonth(),this.fecha.getDate());
     }
-
+    //ejercicio12
     extraerDinero(monto,caja){
         if (caja==="pesos"){
             if (this.cajaAhorroPesos+(this.descubierto-this.descubiertoUsado)>=monto){
                 this.cajaAhorroDolares-=monto
+                return true
             }else{
                 return false
                 }
         }else if (caja==="dolares"){
             if (this.cajaAhorroDolares>=0 && this.cajaAhorroDolares>=monto){
                 this.cajaAhorroDolares-=monto
+                return true
             }else{
                 return false
                 }
         }else{
-        return false
+        return false;
+        };
+    }
+
+    //ejercicio13 
+    ingresarDinero(monto, caja) {
+            if (caja === "pesos") {
+                this.cajaAhorroPesos += monto;
+                return this.cajaAhorroPesos;
+            } else if (caja === "dolares") {
+                if (this.cajaAhorroDolares >= 0) {
+                    this.cajaAhorroDolares += monto;
+                    return this.cajaAhorroDolares;
+                } else {
+                    return -1; // No tiene caja de ahorro en dólares
+                }
+            } else {
+                return -1; // Tipo de caja no válido
+        }
+    }
+
+    //ejercicio14
+    compraVentaDolares(monto, cajaOrigen) {
+        let montoConvertido;
+        if (cajaOrigen === "pesos") {
+            montoConvertido = monto / COTIZACION_DOLAR; // Convertir pesos a dólares
+            if (this.extraerDinero(monto, cajaOrigen) && this.ingresarDinero(montoConvertido, "dolares") !== -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (cajaOrigen === "dolares") {
+            montoConvertido = monto * COTIZACION_DOLAR; // Convertir dólares a pesos
+            if (this.extraerDinero(monto, cajaOrigen) && this.ingresarDinero(montoConvertido, "pesos") !== -1) {
+                return true
+            } else {
+                return false;
+            }
+        } else {
+            return false; // Tipo de caja no válido
         }
     }
 }

@@ -1,3 +1,5 @@
+const COTIZACION_DOLAR=1000000//dolar massita
+
 //ejercicio7
 function encontrarClientePorID(id) {
     for (let i = 0; i < clients.length; i++) {
@@ -27,6 +29,7 @@ function encontrarConsumptionPorID(id) {
     }
     return -1; // Si no se encuentra el consumo, devuelve -1
 }
+
 //ejercicio10
 function encontrarTarjetasPorIDCliente(idCliente) {
     let tarjetasCliente = [];
@@ -37,4 +40,18 @@ function encontrarTarjetasPorIDCliente(idCliente) {
     }
     return tarjetasCliente;
 }
-console.log(new Client(12345678, "pass1", "Juan", "García", 500, true))
+
+//ejercicio11
+function encontrarConsumosPorTarjeta(idTarjeta) {
+    let consumosTarjeta = [];
+    for (let i = 0; i < consumptions.length; i++) {
+        if (consumptions[i].idCreditCard === idTarjeta) {
+            consumosTarjeta.push(creditCards[i]);
+        }
+    }
+    return consumosTarjeta;
+}
+
+//ejercicio21 Linkear métodos
+
+console.log(encontrarConsumosPorTarjeta(2))
