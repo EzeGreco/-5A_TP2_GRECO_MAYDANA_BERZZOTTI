@@ -1,5 +1,5 @@
 const COTIZACION_DOLAR=1000000//dolar massita
-
+var userId = 1
 //ejercicio7
 function encontrarClientePorID(id) {
     for (let i = 0; i < clients.length; i++) {
@@ -53,5 +53,7 @@ function encontrarConsumosPorTarjeta(idTarjeta) {
 }
 
 //ejercicio21 Linkear métodos
-
-console.log(encontrarConsumosPorTarjeta(2))
+function linkCompraVenta(){
+    monto
+    userId.compraVentaDolares(monto, cajaOrigen) 
+}

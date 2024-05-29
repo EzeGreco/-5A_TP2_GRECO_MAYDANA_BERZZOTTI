@@ -50,7 +50,22 @@
                         <!--Agregar el resto de las etiquetas necesarias-->
                     </div>
                     <div class="form-group">                
-                        <button class="form-check-control btn btn-primary">Realizar operación</button>
+                        <button class="form-check-control btn btn-primary" onclick="linkCompraVenta()">Realizar operación</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="montoTransferencia">Monto a cambiar ($) </label>
+                        <input id="montoCompraVenta" class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="monedaCompraVenta">Moneda</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="radioPesosCompraVenta" name="radioMonedaCompraVenta" class="custom-control-input">
+                            <label class="custom-control-label" for="radioPesosCompraVenta">Pesos</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="radioDolaresCompraVenta" name="radioMonedaCompraVenta" class="custom-control-input">
+                            <label class="custom-control-label" for="radioDolaresCompraVenta">Dólares</label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
@@ -162,6 +177,7 @@
         <script src="classes/client.js"></script>
         <script src="classes/consumption.js"></script>
         <script src="classes/creditCard.js"></script>
+        <script src="dom.js"></script>
         <script src="functions.js"></script>
     </body>
 </html>
