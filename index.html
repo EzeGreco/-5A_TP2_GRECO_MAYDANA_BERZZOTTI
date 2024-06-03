@@ -19,41 +19,72 @@
         </header>
         <main>
             <!--Sección de login y registro-->
-            <section>
+            <section id="login">
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Bienvenido a CarraBank</h3>
                     <div class="form-group">
-                        <!--Agregar el login-->
-                        <button class="form-check-control btn btn-primary">Ingresar</button>
+                        <label for="dni">DNI </label>
+                        <input id="dniUser" class="form-control" type="text">
+
+                        <label for="password">Contraseña </label>
+                        <input id="passwordUser" class="form-control" type="text">
+
+                        <button class="form-check-control btn btn-primary" onclick="linkLogin()" >Ingresar</button>
                     </div>
                     <div class="form-group">
-                        <!--Agregar el resto de las etiquetas necesarias en el registro-->
-                        <button class="form-check-control btn btn-secondary">Registrarse</button>
+                        <label for="name">Nombre </label>
+                        <input id="nameUser" class="form-control" type="text">
+
+                        <label for="surname">Apellido </label>
+                        <input id="surnameUser" class="form-control" type="text">
+
+                        <label for="ingresosAnuales">Ingresos anuales </label>
+                        <input id="ingresosAnualesUser" class="form-control" type="text">
+
+                        <button class="form-check-control btn btn-secondary" onclick="linkRegister()">Registrarse</button>
                     </div>
                 </div>
             </section>
-            <!--Sección homebanking-->
-            <section>
+            
+            <section id="homebanking">
+                <!-- dinero en cajas de ahorro y descubierto-->
+                <div class="col-auto shadow p-3 mb-5 bg-white rounded">
+                    <h3>Principal</h3>
+                    <div>
+                        <h5>Caja de ahorro en pesos = <b id="cajaDeAhorroPesos">...</b></h5>
+                        <h5>Caja de ahorro en dolares = <b id="cajaDeAhorroDolares">...</b></h5>
+                        <h5>Descubierto= <b id="descubierto">...</b></h5>
+                        <button class="form-check-control btn btn-danger" onclick="logout()">LogOut</button>
+                    </div>
+                </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Ingresar y extraer dinero</h3>
                     <div class="form-group">     
                         <!--Agregar el resto de las etiquetas necesarias-->
                     </div>
                     <div class="form-group">                
-                        <button class="form-check-control btn btn-primary" onclick="">Ingresar</button>
-                        <button class="form-check-control btn btn-danger">Extraer</button>
+                        <button class="form-check-control btn btn-primary" onclick="linkIngreso()">Ingresar</button>
+                        <button class="form-check-control btn btn-danger" onclick="linkRetiro()">Extraer</button>
+                        <div class="form-group">
+                            <label for="montoTransferencia">Monto a ingresar/extraer $</label>
+                            <input id="montoRetiroIngreso" class="form-control" type="text">
+                            <label for="monedaRetiroIngreso">Tipo de caja de ahorro</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="radioPesosRetiroIngreso" name="radioMonedaRetiroIngreso" class="custom-control-input">
+                                <label class="custom-control-label" for="radioPesosRetiroIngreso">Pesos</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="radioDolaresRetiroIngreso" name="radioMonedaRetiroIngreso" class="custom-control-input">
+                                <label class="custom-control-label" for="radioDolaresRetiroIngreso">Dólares</label>
+                            </div>
+                            <h3 id="mensajeRetiroIngreso"> Esperando la transacción... </h3>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Compra / venta de dólares</h3>
-                    <div class="form-group">     
-                        <!--Agregar el resto de las etiquetas necesarias-->
-                    </div>
-                    <div class="form-group">                
-                        <button class="form-check-control btn btn-primary" onclick="linkCompraVenta()">Realizar operación</button>
-                    </div>
                     <div class="form-group">
-                        <label for="montoTransferencia">Monto a cambiar ($) </label>
+                        <label for="montoTransferencia">Monto a cambiar $ </label>
                         <input id="montoCompraVenta" class="form-control" type="text">
                     </div>
                     <div class="form-group">
@@ -66,6 +97,10 @@
                             <input type="radio" id="radioDolaresCompraVenta" name="radioMonedaCompraVenta" class="custom-control-input">
                             <label class="custom-control-label" for="radioDolaresCompraVenta">Dólares</label>
                         </div>
+                        <h3 id="mensajeCompraVenta"> Esperando la transacción... </h3>
+                    </div>
+                    <div class="form-group">                
+                        <button class="form-check-control btn btn-primary" onclick="linkCompraVenta()">Realizar operación</button>
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
@@ -132,44 +167,32 @@
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
-                    <h3>Añadir nuevo consumo de tarjeta</h3>
+                    <h3>Añadir Consumo a tarjeta de crédito</h3>
                     <div class="form-group">
-                        <div class="form-group">
-                            <label for="selectClienteNuevoConsumo">Tarjeta que realizó el consumo </label>
-                            <select class="form-control" name="">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="nuevoLocal">Nombre del local</label>
-                            <input class="form-control" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="nuevoConsumo">Consumo realizado ($)</label>
-                            <input class="form-control" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="fechaConsumo">Fecha</label>
-                            <input class="form-control" type="date">
-                        </div>
-                        <button class="form-check-control btn btn-success">Añadir consumo</button>
+                        <label for="creditCardSelect">Tarjeta de crédito:</label>
+                        <select class="form-control" id="creditCardSelect"></select>
+                        <br>
+                        <label for="localConsumption">Nombre del local:</label>
+                        <input class="form-control" type="text" id="localConsumption">
+                        <br>
+                        <label for="montoConsumption">Monto:</label>
+                        <input class="form-control" type="number" id="montoConsumption">
+                        <br>
+                        <button class="form-check-control btn btn-success" onclick="linkAddConsumption()">Añadir consumo</button>
                     </div>
+                </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Pagar tarjeta</h3>
                     <div class="form-group">
                         <div class="form-group">
-                            <label for="selectClientePagoTarjeta">Tarjeta a abonar</label>
-                            <select class="form-control" name="" id="">
-                                <option value=""></option>
-                            </select>
+                            <label for="selectPayCreditCard">Tarjeta a abonar</label>
+                            <select class="form-control" name="selectPayCreditCard" id="selectPayCreditCard"> </select>
+                            <label for="montoPayCreditCard">Monto a abonar ($)</label>
+                            <input class="form-control" type="number" name="montoPayCreditCard" id="montoPayCreditCard">
                         </div>
-                        <div class="form-group">
-                            <label for="montoPagarTarjeta">Monto a abonar ($)</label>
-                            <input class="form-control" type="text">
-                        </div>
-                        <button class="form-check-control btn btn-success">Pagar</button>
-                        <button class="form-check-control btn btn-info">Realizar pago total</button>
+                        <button class="form-check-control btn btn-success" onclick="linkPayCreditCard()">Pagar</button>
+                        <h5 id="mensajePayCreditCard">Esperando transacción</h5>
                     </div>
                 </div>
             </section>
