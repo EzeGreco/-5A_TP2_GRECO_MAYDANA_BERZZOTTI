@@ -219,3 +219,26 @@ function linkPayCreditCard() {
     refreshDinero(clients[posCliente].cajaAhorroPesos, clients[posCliente].cajaAhorroDolares, clients[posCliente].descubierto, clients[posCliente].descubiertoUsado)
     putMensajePayCreditCard(mensaje)
 }
+
+//ejercicio17, función para transferir dinero
+function transferencia(idTransfiere, idRecibe, monto, moneda){
+    let posTransfiere=encontrarClientePorID(idTransfiere)
+    let posRecibe=encontrarClientePorID(idRecibe)
+    if (posTransfiere<0 || posRecibe<0){
+        return false
+    }else if (moneda=="pesos"){
+        if(clients[posTransfiere].cajaAhorroPesos>=monto){
+            clients[posTransfiere].extraerDinero(monto, moneda)
+            clients[posRecibe].ingresarDinero(monto, moneda)
+            return true
+    }
+    }else if (moneda=="dolares"){
+        if(clients[posTransfiere].cajaAhorroDolares>=monto && clients[posRecibe].cajaAhorroDolares>=0){
+            clients[posTransfiere].extraerDinero(monto, moneda)
+            clients[posRecibe].ingresarDinero(monto, moneda)
+            return true
+    }
+    }else {
+        return false
+    }
+}
