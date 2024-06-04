@@ -4,6 +4,14 @@ var posCliente=encontrarClientePorID(clientId)
 changeScreen()
 clients[0].cajaAhorroPesos = 10000000
 clients[0].cajaAhorroDolares = 10
+clients[1].cajaAhorroPesos = 100000
+clients[1].cajaAhorroDolares = 1
+clients[2].cajaAhorroPesos = 20000000
+clients[2].cajaAhorroDolares = 10
+clients[3].cajaAhorroPesos = 10000000
+clients[3].cajaAhorroDolares = 10
+clients[4].cajaAhorroPesos = -100
+clients[4].cajaAhorroDolares = 0
 cargarDropdowns();
 
 //
@@ -55,16 +63,21 @@ function encontrarConsumosPorTarjeta(idTarjeta) {
     let consumosTarjeta = [];
     for (let i = 0; i < consumptions.length; i++) {
         if (consumptions[i].idCreditCard === idTarjeta) {
-            consumosTarjeta.push(creditCards[i]);
+            consumosTarjeta.push(consumptions[i]);
         }
     }
     return consumosTarjeta;
 }
 
+
+//--------------------------------------------------RETIRO INGRESO DE DINERO-----------------------------------------------
+
+
 //ejercicio21 Linkear métodos CompraVenta FUNCIONA
 function linkCompraVenta(){
-    monto=getMontoCompraVenta()
-    cajaOrigen=getMonedaCompraVenta()
+    var monto=getMontoCompraVenta()
+    var cajaOrigen=getMonedaCompraVenta()
+    var mensaje= ""
     if (clients[posCliente].compraVentaDolares(monto, cajaOrigen)){
         mensaje="Se ha realizado la transacción con exito"
     } else{
@@ -76,8 +89,9 @@ function linkCompraVenta(){
 
 //ejercicio21 Linkear métodos Extracción FUNCIONA
 function linkRetiro(){
-    monto=getMontoRetiroIngreso()
-    moneda=getMonedaRetiroIngreso()
+    var monto=getMontoRetiroIngreso()
+    var moneda=getMonedaRetiroIngreso()
+    var mensaje= ""
     if (clients[posCliente].extraerDinero(monto,moneda)){
         mensaje="Extracción realizada"
     }else{
@@ -88,10 +102,15 @@ function linkRetiro(){
 
 }
 
+
+//--------------------------------------------------Registro y Login------------------------------------------------------
+
+
 //ejercicio21 Linkear métodos Ingreso FUNCIONA
 function linkIngreso(){
-    monto=getMontoRetiroIngreso()
-    moneda=getMonedaRetiroIngreso()
+    var monto=getMontoRetiroIngreso()
+    var moneda=getMonedaRetiroIngreso()
+    var mensaje= ""
     if (clients[posCliente].ingresarDinero(monto,moneda)>=0){
         mensaje="Ingreso realizado"
     }else{
@@ -178,6 +197,10 @@ function logout(){
     window.alert("Ha cerrado su cuenta con éxito")
 }
 
+
+//-----------------------------------------Sumar consumption y pagar saldo--------------------------------------------------
+
+
 //ejercicio 15, sumar consumición FUNCIONA
 function addConsumption(idCreditCard, local, monto){
     var posCreditCard =encontrarCreditCardPorID(idCreditCard)
@@ -207,6 +230,7 @@ function linkAddConsumption() {
 function linkPayCreditCard() {
     var idCreditCard = getCreditCardPay();
     var monto = getMontoPay();
+    var mensaje= ""
     var posTarjeta=encontrarCreditCardPorID(idCreditCard);
     var pago = creditCards[posTarjeta].pay(monto);
     if (pago==1){
@@ -220,7 +244,11 @@ function linkPayCreditCard() {
     putMensajePayCreditCard(mensaje)
 }
 
-//ejercicio17, función para transferir dinero
+
+//-----------------------------------------------------Transferencia------------------------------------------------------------
+
+
+//ejercicio 17, función para transferir dinero FUNCIONA
 function transferencia(idTransfiere, idRecibe, monto, moneda){
     let posTransfiere=encontrarClientePorID(idTransfiere)
     let posRecibe=encontrarClientePorID(idRecibe)
@@ -241,4 +269,162 @@ function transferencia(idTransfiere, idRecibe, monto, moneda){
     }else {
         return false
     }
+}
+
+//ejercicio 29, conectar métodos para transferir dinero FUNCIONA
+function linkTransferencia() {
+    var idClienteOrigen = getClienteOrigenTransferencia();
+    var idClienteDestino = getClienteDestinoTransferencia();
+    var monto = getMontoTransferencia();
+    var moneda= getMonedaTransferencia();
+    var mensaje= ""
+    var transf = transferencia(idClienteOrigen, idClienteDestino, monto, moneda);
+    if (transf){
+        mensaje="Se realizo correctamente la transferencia"
+    } else{
+        mensaje="No se pudo concretar la transferencia"
+    }
+    refreshDinero(clients[posCliente].cajaAhorroPesos, clients[posCliente].cajaAhorroDolares, clients[posCliente].descubierto, clients[posCliente].descubiertoUsado)
+    putMensajeTransferencia(mensaje)
+}
+
+
+//-------------------------------------------------------Tablas------------------------------------------------------------
+
+
+//ejercicio 25, linkear mostrar tabla clients FUNCIONA
+function linkMostrarTablaClients(){
+    var headers=["dni","name","surname"]
+    var containerId="tableListados"
+    generateTable(clients, containerId, headers)
+}
+
+//ejercicio 26, linkear mostrar csv clients FUNCIONA
+function linkMostrarCSVClients(){
+    var headers=["id","dni"]
+    var containerId="tableListados"
+    generateCSV(clients, containerId, headers)
+}
+
+//ejercicio 27, función para crear un vector con los clientes morosos FUNCIONA
+function buscarClientsMorosos(){
+    let clientsM = [];
+    for (let i = 0; i < clients.length; i++) {
+        if (clients[i].cajaAhorroPesos < 0) {
+            clientsM.push(clients[i]);
+        }
+    }
+    return clientsM;
+}
+
+//ejercicio 27, linkear mostrar tabla clients morosos FUNCIONA
+function linkMostrarTablaMorosos(){;
+    var headers=["dni","name","surname", "cajaAhorroPesos"];
+    var containerId="tableListados";
+    var clientsMorosos=buscarClientsMorosos();
+    generateTable(clientsMorosos, containerId, headers);
+};
+
+//ejercicio 28, función para buscar clients FUNCIONA
+function searchClients(search){
+    let clientsS = [];
+    for (let i = 0; i < clients.length; i++) {
+        if (clients[i].surname == search || clients[i].dni == search) {
+            clientsS.push(clients[i]);
+        }
+    }
+    return clientsS;
+}
+
+//ejercicio 28, linkear mostrar tabla clients buscados FUNCIONA
+function linkSearchClients(){;
+    var search= getSearch();
+    if (search.length>=3){
+        var headers=["dni","name","surname", "cajaAhorroPesos", "cajaAhorroDolares"];
+        var containerId="tableSearch";
+        var clientsSearched=searchClients(search);
+        generateTable(clientsSearched, containerId, headers);
+    }
+};
+
+
+//-----------------------------------------------Mínimos y máximos---------------------------------------------------------
+
+
+//ejercicio 22 y 23, función para buscar el total de valor en pesos que posee un cliente FUNCIONA
+function findTotal(cliente){
+    var total=0
+    var pesos = cliente.cajaAhorroPesos
+    var dolares = cliente.cajaAhorroDolares
+    if (dolares < 0){
+        total = pesos
+    }else{
+        total= (dolares*COTIZACION_DOLAR)+pesos
+    }
+    return total
+}
+
+//ejercicio 22 y 23, función para encontrar consumos usuario FUNCIONA
+function encontrarConsumosPorUsuario(idCliente){
+    var consumosDeUsuario=[]
+    var tarjetasDeUsuario=encontrarTarjetasPorIDCliente(idCliente)
+    for (let i = 0; i < tarjetasDeUsuario.length; i++) {
+        var consumosDeTarjeta = encontrarConsumosPorTarjeta(tarjetasDeUsuario[i].id)
+        for (let x = 0; x < consumosDeTarjeta.length; x++) {
+            consumosDeUsuario.push(consumosDeTarjeta[x])
+        }
+    }
+    return consumosDeUsuario
+}
+
+//ejercicio 22, función para buscar el id del cliente con el máximo FUNCIONA
+function findMaximoClient() {
+    let idMaximoClient = -1;
+    let maxTotal = null;
+
+    for (let i = 0; i < clients.length; i++) {
+        var total = findTotal(clients[i]);
+        if (total > maxTotal || total==null) {
+            maxTotal = total;
+            idMaximoClient = clients[i].id;
+        }
+    }
+
+    return idMaximoClient;
+}
+ 
+//ejercicio 23, función para buscar el id del cliente con el mínimo FUNCIONA
+function findMinimoClient() {
+    let idMinimoClient = -1;
+    let minTotal = null;
+
+    for (let i = 0; i < clients.length; i++) {
+        var total = findTotal(clients[i]);
+        if (total < minTotal || total==null)  {
+            minTotal = total;
+            idMinimoClient = clients[i].id;
+        }
+    }
+
+    return idMinimoClient;
+}
+
+//ejercicio 22, conectar las funciones para mostrar el maximo cliente FUNCIONA
+function linkMostrarMaximoCliente(){
+    idClienteMax = findMaximoClient()
+    mostrarDatosClient(clients[encontrarClientePorID(idClienteMax)])
+    var containerIdConsumptions="tableConsumptions"
+    var headersConsumptions=["idCreditCard", "fecha", "local", "monto"]
+    var consumosUsuario = encontrarConsumosPorUsuario(clients[encontrarClientePorID(idClienteMax)].id)
+    generateTable(consumosUsuario,containerIdConsumptions,headersConsumptions)
+}
+
+//ejercicio 23, conectar las funciones para mostrar el minimo cliente FUNCIONA
+function linkMostrarMinimoCliente(){
+    idClienteMin = findMinimoClient()
+    mostrarDatosClient(clients[encontrarClientePorID(idClienteMin)])
+    var containerIdConsumptions="tableConsumptions"
+    var headersConsumptions=["idCreditCard", "fecha", "local", "monto"]
+    var consumosUsuario = encontrarConsumosPorUsuario(clients[encontrarClientePorID(idClienteMin)].id)
+    generateTable(consumosUsuario,containerIdConsumptions,headersConsumptions)
 }
