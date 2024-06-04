@@ -106,31 +106,32 @@
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Máximos y mínimos</h3>
                     <div class="form-group">                
-                        <button class="form-check-control btn btn-info">Obtener mayor</button>
-                        <button class="form-check-control btn btn-info">Obtener menor</button>
+                        <button class="form-check-control btn btn-info" onclick="linkMostrarMaximoCliente()">Obtener mayor</button>
+                        <button class="form-check-control btn btn-info" onclick="linkMostrarMinimoCliente()">Obtener menor</button>
                     </div>
-                    <div>
-                        
+                    <div id="showClient">
+                    </div>
+                    <div id="tableConsumptions">  
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Listados</h3>
                     <div class="form-group">
-                        <button class="form-check-control btn btn-info">Listar clientes</button>
-                        <button class="form-check-control btn btn-success">Listar clientes CSV</button>
-                        <button class="form-check-control btn btn-danger">Listar morosos</button>
+                        <button class="form-check-control btn btn-info" onclick="linkMostrarTablaClients()">Listar clientes</button>
+                        <button class="form-check-control btn btn-success" onclick="linkMostrarCSVClients()">Listar clientes CSV</button>
+                        <button class="form-check-control btn btn-danger" onclick="linkMostrarTablaMorosos()">Listar morosos</button>
+                    </div >
+                    <div class="form-group" id="tableListados">
+
                     </div>
-                    <table class="table">
-                    </table>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
                     <h3>Busqueda de un cliente</h3>                    
                     <div class="form-group">
                         <label for="searchByContent">Buscar clientes por apellido o DNI</label>
-                        <input class="form-control" type="text">
+                        <input class="form-control" type="text" id="clientSearch" onkeyup="linkSearchClients()">
                     </div>
-                    <div>
-
+                    <div id="tableSearch">
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
@@ -138,32 +139,33 @@
                     <div class="form-group">
                         <div class="form-group">
                             <label for="selectClienteOrigen">Cliente que envía el dinero </label>
-                            <select class="form-control" name="" id="">
+                            <select class="form-control" name="selectClienteOrigen" id="selectClienteOrigen">
                                 <option value=""></option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="selectClienteDestino">Cliente que recibe el dinero </label>
-                            <select class="form-control" name="" id="">
+                            <select class="form-control" name="selectClienteDestino" id="selectClienteDestino">
                                 <option value=""></option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="montoTransferencia">Monto a transferir ($) </label>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="montoTransferencia">
                         </div>
                         <div class="form-group">
                             <label for="monedaTransferencia">Moneda</label>
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="radioPesos" name="radioMoneda" class="custom-control-input">
-                                <label class="custom-control-label" for="radioPesos">Pesos</label>
+                                <input type="radio" id="radioPesosTransferencia" name="radioMonedaTransferencia" class="custom-control-input">
+                                <label class="custom-control-label" for="radioPesosTransferencia">Pesos</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="radioDolares" name="radioMoneda" class="custom-control-input">
-                                <label class="custom-control-label" for="radioDolares">Dólares</label>
+                                <input type="radio" id="radioDolaresTransferencia" name="radioMonedaTransferencia" class="custom-control-input">
+                                <label class="custom-control-label" for="radioDolaresTransferencia">Dólares</label>
                             </div>
                         </div>
-                        <button class="form-check-control btn btn-success">Transferir</button>
+                        <button class="form-check-control btn btn-success" onclick="linkTransferencia()">Transferir</button>
+                        <h5 id="mensajeTransferencia">Esperando transferencia...</h5>
                     </div>
                 </div>
                 <div class="col-auto shadow p-3 mb-5 bg-white rounded">
@@ -192,7 +194,7 @@
                             <input class="form-control" type="number" name="montoPayCreditCard" id="montoPayCreditCard">
                         </div>
                         <button class="form-check-control btn btn-success" onclick="linkPayCreditCard()">Pagar</button>
-                        <h5 id="mensajePayCreditCard">Esperando transacción</h5>
+                        <h5 id="mensajePayCreditCard">Esperando transacción...</h5>
                     </div>
                 </div>
             </section>
